@@ -1,0 +1,4 @@
+- [x] socket()
+- [x] bind()
+- [] listen()
+- [] accept()

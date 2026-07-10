@@ -10,6 +10,10 @@ public:
   void start();
 
 private:
+  void create_socket();
+  void bind_socket();
+  
   std::uint16_t port_;
   int listen_fd_{-1};
+
 };
