@@ -15,6 +15,7 @@ void Server::start()
 {
   create_socket();
   bind_socket();
+  start_listening();
 }
 
 void Server::create_socket()
@@ -46,4 +47,16 @@ void Server::bind_socket()
     throw std::runtime_error("Failed to bind socket.");
   }
   std::cout << "Socket bound to port "<< port_ <<".\n";
+}
+
+void Server::start_listening()
+{
+  constexpr int BACKLOG = 10;
+
+  if(::listen(listen_fd_, BACKLOG) == -1)
+  {
+    throw std::runtime_error("Faield to listen on socket.");
+  }
+
+  std::cout << "Listen on port " << port_ <<"....\n";
 }

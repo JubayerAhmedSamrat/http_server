@@ -1,4 +1,7 @@
 - [x] socket()
 - [x] bind()
-- [] listen()
+- [x] listen()
 - [] accept()
+- [] receive()
+- [] parse()
+- [] send()
