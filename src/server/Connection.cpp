@@ -35,3 +35,12 @@ Connection::~Connection()
 {
   ::close(client_fd_);
 }
+
+void Connection::send_response(const std::string& response)
+{
+  ::send(
+      client_fd_,
+      response.c_str(),
+      response.size(),
+      0);
+}

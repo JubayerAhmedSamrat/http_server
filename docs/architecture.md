@@ -5,11 +5,19 @@ Connection
     │
 receive()
     ▼
-Raw HTTP String
-    │
-    ▼
 Parser
     │
 parse()
     ▼
 Request
+    │
+    ▼
+Response
+    │
+to_string()
+    ▼
+Connection
+    │
+send()
+    ▼
+Client

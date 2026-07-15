@@ -47,3 +47,17 @@ Reason:
 - Connection only receives bytes.
 - Parser converts bytes into structured data.
 - Easier to test and maintain.
+## Decision #8
+
+### Dedicated Respone class 
+
+Responsibilites 
+- Build valid HTTP Responses.
+- Format status line.
+- Add HTTP headers.
+- Append body.
+
+Reason 
+
+The networking layer should only transmit bytes.
+HTTP formatting belongs inside the Response class.

@@ -1,6 +1,7 @@
 #include "server/Server.hpp"
 #include "server/Connection.hpp"
 #include "http/Parser.hpp"
+#include "http/Response.hpp"
 
 #include <iostream>
 #include <arpa/inet.h>
@@ -84,6 +85,18 @@ void Server::accept_connection()
   Parser parser;
 
   Request request = parser.parse(raw_request);
+
+  Response response(
+      200,
+      "OK",
+      "Hello from my C++ HTTP Server!"
+      );
+  //Debug: print the exact HTTP response we'll send 
+  std::cout << "\n=======HTTP Response ===========\n";
+  std::cout << response.to_string() << '\n';
+  std::cout << "=========================\n";
+
+connection.send_response(response.to_string());
   std::cout << "\n========= Parsed Request ==========\n";
   std::cout << "Method  : " << request.method << '\n';
   std::cout << "Path  : " << request.path << '\n';

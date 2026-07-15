@@ -45,3 +45,14 @@
 - Learned `std::istringstream`.
 - Learned to model HTTP requests with a struct.
 - Learned `const` member function.
+## Day 8
+### Systems 
+- Learned how HTTP responses are formatted.
+- Implemented HTTP/1.1 response generation.
+- Learned why `Content-Length` is required.
+- Used `send()` to transmit data over TCP.
+
+### C++ 
+- Learned `std::ostringstream`.
+- Introduced `std::move`.
+- Learned protocol bugs differ from compiler errors.

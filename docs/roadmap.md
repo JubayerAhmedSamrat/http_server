@@ -1,12 +1,13 @@
-- [x] socket()
-- [x] bind()
-- [x] listen()
-- [x] accept()
-- [x] receive()
-- [x] parse()
-- [] build()
-- [] send()
-- [] router()
-- [] GET / 
-- [] GET /health 
-- [] /echo 
+- [x] Socket
+- [x] Bind
+- [x] Listen
+- [x] Accept
+- [x] Receive
+- [x] Connection class
+- [x] HTTP Parser
+- [x] HTTP Response
+
+- [] Router
+- [] GET /
+- [] GET /health
+- [] GET /echo
