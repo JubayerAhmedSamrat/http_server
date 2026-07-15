@@ -3,6 +3,7 @@
 #include <iostream>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <unistd.h>
 
 
 Server::Server(std::uint16_t port)
@@ -16,6 +17,8 @@ void Server::start()
   create_socket();
   bind_socket();
   start_listening();
+  accept_connection();
+
 }
 
 void Server::create_socket()
@@ -59,4 +62,39 @@ void Server::start_listening()
   }
 
   std::cout << "Listen on port " << port_ <<"....\n";
+}
+
+void Server::accept_connection()
+{
+  std::cout <<"Waiting for a client...\n";
+
+  int client_fd = ::accept(listen_fd_, nullptr, nullptr);
+
+  if(client_fd == -1)
+  {
+    throw std::runtime_error("Failed to accept client.");
+  }
+
+  std::cout << "Client connected.\n";
+  char buffer[4096]{};
+
+  ssize_t bytes_received = 
+    ::recv(client_fd,
+        buffer,
+        sizeof(buffer) - 1,
+        0);
+
+  if(bytes_received == -1)
+  {
+    ::close(client_fd);
+    throw std::runtime_error("Failed to receive data.");
+  }
+
+    buffer[bytes_received] = '\0';
+
+    std::cout << "\n=========== HTTP REQUEST ==========\n";
+    std::cout << buffer  << '\n';
+    std::cout << "=========================\n";
+
+    ::close(client_fd);
 }

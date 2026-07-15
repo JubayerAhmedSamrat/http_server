@@ -19,3 +19,14 @@
 ### C++ 
 - Learned `constexpr` for compile-time constants.
 - Continued using POSIX system calls with exception handling.
+
+## Day 5 
+### Systems 
+- Learned accept().
+- Learned recv().
+- Learned close().
+- A listening socket accepts connections.
+- A client socket communicates with exactly one client.
+### C++ 
+- Learned ssize_t.
+- Learned why recv() returns the number of bytes read.

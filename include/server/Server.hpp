@@ -13,6 +13,8 @@ private:
   void create_socket();
   void bind_socket();
   void start_listening();
+  void accept_connection();
+
 
   std::uint16_t port_;
   int listen_fd_{-1};

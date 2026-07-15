@@ -19,3 +19,10 @@ Reasons:
 - Single responsibility for each function.
 - Easier debugging.
 - Easier future extention (SO_REUSEADDR, IPv6, TLS, etc.).
+
+## Decision #5 
+The listening socket and client socket are kept separate.
+
+Reason: 
+- The listening socket continues accepting new clients.
+- Each accepted connection gets its own file descriptor.

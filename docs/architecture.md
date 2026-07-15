@@ -1,13 +1,16 @@
-main()
+Client
     │
     ▼
-Server
+Kernel Queue
     │
-    ├── create_socket()
+    ▼
+listen_fd_
     │
-    ├── bind_socket()
+accept()
     │
-    └── start_listening()
-            │
-            ▼
-      Linux Kernel
+    ▼
+client_fd
+    │
+recv()
+    │
+Print HTTP Request
