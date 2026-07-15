@@ -1,5 +1,6 @@
 #include "server/Server.hpp"
 #include "server/Connection.hpp"
+#include "http/Parser.hpp"
 
 #include <iostream>
 #include <arpa/inet.h>
@@ -79,10 +80,14 @@ void Server::accept_connection()
   std::cout << "Client connected.\n";
   
   Connection connection{client_fd};
-  std::string request = connection.receive();
+  std::string raw_request = connection.receive();
+  Parser parser;
 
-  std::cout << "\n=========== HTTP REQUEST ============\n";
-  std::cout << request << '\n';
+  Request request = parser.parse(raw_request);
+  std::cout << "\n========= Parsed Request ==========\n";
+  std::cout << "Method  : " << request.method << '\n';
+  std::cout << "Path  : " << request.path << '\n';
+  std::cout << "Version  : " << request.version << '\n';
+
   std::cout << "=================================\n";
-
 }

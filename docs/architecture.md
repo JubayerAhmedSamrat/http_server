@@ -1,14 +1,15 @@
-main()
-    │
-    ▼
-Server
-    │
-accept()
+Client
     │
     ▼
 Connection
     │
 receive()
+    ▼
+Raw HTTP String
     │
     ▼
-Raw HTTP Request
+Parser
+    │
+parse()
+    ▼
+Request

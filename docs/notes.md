@@ -37,4 +37,11 @@
 
 ### C++ 
 - Learned the basics of RAII 
-
+## Day 7
+### Systems 
+- An HTTP request starts with a request line.
+- The request line contains the method, path, and HTTP version.
+### C++ 
+- Learned `std::istringstream`.
+- Learned to model HTTP requests with a struct.
+- Learned `const` member function.

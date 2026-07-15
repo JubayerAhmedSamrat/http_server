@@ -3,7 +3,10 @@
 - [x] listen()
 - [x] accept()
 - [x] receive()
-- [] parse()
+- [x] parse()
 - [] build()
 - [] send()
 - [] router()
+- [] GET / 
+- [] GET /health 
+- [] /echo 

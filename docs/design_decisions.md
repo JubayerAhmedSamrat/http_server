@@ -39,3 +39,11 @@ Benefits:
 - Server only manages listening.
 - Connection manages one client.
 - Easier to add send(), keep-alive, and timeouts later.
+
+## Decision #7 
+### Separate parsing from networking 
+
+Reason:
+- Connection only receives bytes.
+- Parser converts bytes into structured data.
+- Easier to test and maintain.
