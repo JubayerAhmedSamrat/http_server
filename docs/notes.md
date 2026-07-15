@@ -30,3 +30,11 @@
 ### C++ 
 - Learned ssize_t.
 - Learned why recv() returns the number of bytes read.
+
+## Day 6 
+### Systems 
+- Moved client communication into a dedicated connection class.
+
+### C++ 
+- Learned the basics of RAII 
+

@@ -1,16 +1,14 @@
-Client
+main()
     │
     ▼
-Kernel Queue
-    │
-    ▼
-listen_fd_
+Server
     │
 accept()
     │
     ▼
-client_fd
+Connection
     │
-recv()
+receive()
     │
-Print HTTP Request
+    ▼
+Raw HTTP Request

@@ -1,4 +1,5 @@
 #include "server/Server.hpp"
+#include "server/Connection.hpp"
 
 #include <iostream>
 #include <arpa/inet.h>
@@ -76,25 +77,12 @@ void Server::accept_connection()
   }
 
   std::cout << "Client connected.\n";
-  char buffer[4096]{};
+  
+  Connection connection{client_fd};
+  std::string request = connection.receive();
 
-  ssize_t bytes_received = 
-    ::recv(client_fd,
-        buffer,
-        sizeof(buffer) - 1,
-        0);
+  std::cout << "\n=========== HTTP REQUEST ============\n";
+  std::cout << request << '\n';
+  std::cout << "=================================\n";
 
-  if(bytes_received == -1)
-  {
-    ::close(client_fd);
-    throw std::runtime_error("Failed to receive data.");
-  }
-
-    buffer[bytes_received] = '\0';
-
-    std::cout << "\n=========== HTTP REQUEST ==========\n";
-    std::cout << buffer  << '\n';
-    std::cout << "=========================\n";
-
-    ::close(client_fd);
 }

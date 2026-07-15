@@ -26,3 +26,16 @@ The listening socket and client socket are kept separate.
 Reason: 
 - The listening socket continues accepting new clients.
 - Each accepted connection gets its own file descriptor.
+
+## Decision #6 
+### Introduce Connection class 
+
+Responsibilities:
+- Own one client socket. 
+- Received data.
+- Automatically close the socket.
+
+Benefits:
+- Server only manages listening.
+- Connection manages one client.
+- Easier to add send(), keep-alive, and timeouts later.
