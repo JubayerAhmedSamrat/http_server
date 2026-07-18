@@ -61,3 +61,43 @@ Reason
 
 The networking layer should only transmit bytes.
 HTTP formatting belongs inside the Response class.
+
+# Decision #9 
+## Introduce a Router 
+
+Responsibilities 
+
+- Decide which endpoint should handle a request.
+- Return the correct HTTP response.
+
+Reason 
+
+Networking and routing are different concerns.
+
+The server should only manage sockets.
+
+The Router should manage application behaviour.
+
+# Decision #10 
+
+## server owns the listening socket 
+
+Responsibilities 
+- Create the listening socket.
+- bind it.
+- Listening for incomming connections.
+- close it during destruction.
+
+Reason 
+
+The listening socket is a resource owned by server.
+
+Folowing RAII, the owner is resposible for cleanup. 
+
+# Decision #11 
+## Enable SO_REUSEADDR 
+reason 
+without this socket option, restarting the server immediately after exiting may fail because the previous TCP connection remains in the TIME_WAIT state.
+
+using SO_REUSEADDR is standard for production network servers.
+

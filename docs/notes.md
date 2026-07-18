@@ -56,3 +56,37 @@
 - Learned `std::ostringstream`.
 - Introduced `std::move`.
 - Learned protocol bugs differ from compiler errors.
+
+## Milestone 9 - Router 
+### System 
+- Added a dedicatd router class.
+- Implemented routing for:
+    - `/`
+    - `/health`
+    - `/echo`
+- Added 404 responses. 
+
+### C++   
+- Used `const Request&` to avoid unnecessary copies.
+- Improved separation of concern by moving routing logic out of `Server`. 
+
+## Milestone 10 - Resource Ownership 
+### System 
+- Distinguished between the listening socket and client sockets.
+- Ensured client sockets are closed after each request.
+- Added cleanup for the listening socket.
+
+### C++  
+- Applied RAII 
+- Added a destructor to `Server`.
+- Improved ownership semantics.
+
+## Milestone 11 - socket options 
+### systems 
+- Learned about the TCP `TIME_WAIT` state.
+- Investigated why `bind()` can fail after a server exits.
+- Introduced socket options using `setsockopt()`.
+- Enabled `SO_REUSEADDR` for rapid server restarts.
+
+### Networking 
+- Learned how sockets options influences kernel networking behavior.

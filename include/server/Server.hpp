@@ -8,6 +8,7 @@ public:
   explicit Server(std::uint16_t port);
 
   void start();
+  ~Server();
 
 private:
   void create_socket();

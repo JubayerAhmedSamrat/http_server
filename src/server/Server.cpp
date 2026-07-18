@@ -2,11 +2,15 @@
 #include "server/Connection.hpp"
 #include "http/Parser.hpp"
 #include "http/Response.hpp"
+#include "router/Router.hpp"
 
 #include <iostream>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <cerrno>
+#include <cstring>
+#include <sys/socket.h>
 
 
 Server::Server(std::uint16_t port)
@@ -27,7 +31,18 @@ void Server::start()
 void Server::create_socket()
 {
   listen_fd_ = ::socket(AF_INET, SOCK_STREAM, 0);
-
+  
+  int opt = 1;
+  if(::setsockopt(
+        listen_fd_,
+        SOL_SOCKET,
+        SO_REUSEADDR,
+        &opt,
+        sizeof(opt)
+        ) == -1)
+  {
+    throw std::runtime_error("Failed to set SO_REUSEADDR.");
+  }
   if(listen_fd_ == -1)
   {
     throw std::runtime_error("Failed to create socket.");
@@ -50,7 +65,9 @@ void Server::bind_socket()
         reinterpret_cast<sockaddr*>(&address),
         sizeof(address)) == -1)
   {
-    throw std::runtime_error("Failed to bind socket.");
+    throw std::runtime_error(
+        std::string("bind() failed: ") + std::strerror(errno)
+        );
   }
   std::cout << "Socket bound to port "<< port_ <<".\n";
 }
@@ -84,23 +101,24 @@ void Server::accept_connection()
   std::string raw_request = connection.receive();
   Parser parser;
 
-  Request request = parser.parse(raw_request);
+  Request request = parser.parse(raw_request);  
+  Router router;
+  Response response = router.route(request);
+  connection.send_response(response.to_string());
 
-  Response response(
-      200,
-      "OK",
-      "Hello from my C++ HTTP Server!"
-      );
-  //Debug: print the exact HTTP response we'll send 
-  std::cout << "\n=======HTTP Response ===========\n";
-  std::cout << response.to_string() << '\n';
-  std::cout << "=========================\n";
-
-connection.send_response(response.to_string());
   std::cout << "\n========= Parsed Request ==========\n";
   std::cout << "Method  : " << request.method << '\n';
   std::cout << "Path  : " << request.path << '\n';
   std::cout << "Version  : " << request.version << '\n';
 
   std::cout << "=================================\n";
+}
+
+Server::~Server()
+{
+  if(listen_fd_ != -1)
+  {
+    std::cout << "Closing listening socket...\n";
+    ::close(listen_fd_);
+  }
 }
