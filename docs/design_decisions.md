@@ -100,4 +100,10 @@ reason
 without this socket option, restarting the server immediately after exiting may fail because the previous TCP connection remains in the TIME_WAIT state.
 
 using SO_REUSEADDR is standard for production network servers.
+# Decision #12 
+## Persistent Accept Loop 
+Reason 
 
+A production HTTP server should continue accepting new client connections intead of exiting after serving one request.
+
+Errors while processing one client must not terminate the entire server.

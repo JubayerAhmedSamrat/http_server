@@ -20,3 +20,11 @@ Current Focus
 Next Milestone
 
 Persistent accept loop.
+## Milestone 12
+
+Completed:
+- Persistent accept loop 
+- Per- request exception handling 
+
+Next: 
+- Parse HTTP headers

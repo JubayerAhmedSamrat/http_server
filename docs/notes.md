@@ -90,3 +90,15 @@
 
 ### Networking 
 - Learned how sockets options influences kernel networking behavior.
+
+## Milestone 12 - Persistent Accept Loop 
+### Systems 
+- Implemented a persistent server loop.
+- The server now accepts multiple client without restarting.
+- Added exception handling around request processing.
+
+### C++ 
+- Used `while(true)` for a long-running service.
+- Used `try/catch` to isolate request failures.
+
+

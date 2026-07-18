@@ -24,8 +24,21 @@ void Server::start()
   create_socket();
   bind_socket();
   start_listening();
-  accept_connection();
-
+  
+  while(true)
+  {
+    try 
+    {
+      accept_connection();
+    }
+    catch(const std::exception& exception)
+    {
+      std::cerr 
+        << "Connection Error: "
+        << exception.what()
+        << '\n';
+    }
+  }
 }
 
 void Server::create_socket()
@@ -112,6 +125,8 @@ void Server::accept_connection()
   std::cout << "Version  : " << request.version << '\n';
 
   std::cout << "=================================\n";
+
+  std::cout << "Client disconnected. \n\n";
 }
 
 Server::~Server()

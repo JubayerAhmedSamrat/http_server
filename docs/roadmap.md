@@ -31,7 +31,7 @@
 
 ## Upcomming 
 
-- [ ] Persistent accept loop
+- [x] Persistent accept loop
 - [ ] Logger integration 
 - [ ] Request headers 
 - [ ] Query parameters 
