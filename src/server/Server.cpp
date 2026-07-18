@@ -123,8 +123,29 @@ void Server::accept_connection()
   std::cout << "Method  : " << request.method << '\n';
   std::cout << "Path  : " << request.path << '\n';
   std::cout << "Version  : " << request.version << '\n';
+  
+  std::cout << "\nHeaders\n";
 
+  for(const auto& [key, value] : request.headers)
+  {
+    std::cout 
+      << key 
+      << ": "
+      << value 
+      << '\n';
+  }
   std::cout << "=================================\n";
+
+  std::cout<< "\nQuery Parameters\n";
+
+  for(const auto& [key, value] : request.query_params)
+  {
+    std::cout 
+      << key 
+      << " = "
+      << value 
+      << '\n';
+  }
 
   std::cout << "Client disconnected. \n\n";
 }
