@@ -1,4 +1,5 @@
 #include "server/server.hpp"
+#include "config/ServerConfig.hpp"
 
 #include <iostream>
 #include <stdexcept>
@@ -8,7 +9,8 @@ int main()
   try
   {
 
-    Server server{8080};
+    ServerConfig config;
+    Server server(config.port());
 
     server.start();
   }
