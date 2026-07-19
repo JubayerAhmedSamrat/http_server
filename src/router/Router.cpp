@@ -2,33 +2,43 @@
 #include "http/Request.hpp"
 #include "http/Response.hpp"
 
+Router::Router() 
+{
+  routes_["/"] = 
+    [](const Request&)
+    {
+      return Response(
+          200,
+          "OK",
+          "Welcome to my C++ HTTP server!"
+          );
+    };
+  routes_["/health"] =
+    [](const Request&)
+    {
+      return Response(
+          200,
+          "OK",
+          "Server is healthy."
+          );
+    };
+  routes_["/echo"] = 
+    [](const Request& request)
+    {
+      return Response(
+          200,
+          "OK",
+          request.body
+          );
+    };
+}
+
 Response Router::route(const Request& request) const 
 {
-  if(request.path == "/")
+  auto it = routes_.find(request.path);
+  if(it != routes_.end())
   {
-    return Response(
-        200,
-        "OK",
-        "Welcome to my C++ HTTP server!"
-        );
-  }
-
-  if(request.path == "/health")
-  {
-    return Response(
-        200,
-        "OK",
-        "Sever is healthy."
-        );
-  }
-
-  if(request.path == "/echo")
-  {
-    return Response(
-        200, 
-        "OK",
-        "Echo endpoint."
-        );
+    return it->second(request);
   }
 
   return Response(
