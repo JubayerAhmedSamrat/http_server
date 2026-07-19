@@ -146,6 +146,10 @@ void Server::accept_connection()
       << value 
       << '\n';
   }
+  std::cout << "===============================";
+
+  std::cout << "\nBody\n";
+  std::cout << request.body << '\n';
 
   std::cout << "Client disconnected. \n\n";
 }
