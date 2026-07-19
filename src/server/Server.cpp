@@ -3,6 +3,7 @@
 #include "http/Parser.hpp"
 #include "http/Response.hpp"
 #include "router/Router.hpp"
+#include "server/Middleware.hpp"
 
 #include <iostream>
 #include <arpa/inet.h>
@@ -114,7 +115,11 @@ void Server::accept_connection()
   std::string raw_request = connection.receive();
   Parser parser;
 
-  Request request = parser.parse(raw_request);  
+  Request request = parser.parse(raw_request); 
+
+  Middleware middleware;
+  middleware.log_request(request);
+
   Router router;
   Response response = router.route(request);
   connection.send_response(response.to_string());
