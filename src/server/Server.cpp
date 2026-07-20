@@ -152,38 +152,15 @@ void Server::accept_connection()
   Router router;
   Response response = router.route(request);
   connection.send_response(response.to_string());
-        
-  std::cout << "\n========= Parsed Request ==========\n";
-  std::cout << "Method  : " << request.method << '\n';
-  std::cout << "Path  : " << request.path << '\n';
-  std::cout << "Version  : " << request.version << '\n';
   
-  std::cout << "\nHeaders\n";
+  Logger::info(
+      request.method + 
+      " " +
+      request.path +
+      " -> " +
+      std::to_string(response.status_code())
+      );
 
-  for(const auto& [key, value] : request.headers)
-  {
-    std::cout 
-      << key 
-      << ": "
-      << value 
-      << '\n';
-  }
-  std::cout << "=================================\n";
-
-  std::cout<< "\nQuery Parameters\n";
-
-  for(const auto& [key, value] : request.query_params)
-  {
-    std::cout 
-      << key 
-      << " = "
-      << value 
-      << '\n';
-  }
-  std::cout << "===============================";
-
-  std::cout << "\nBody\n";
-  std::cout << request.body << '\n';
 
   Logger::info(
       "Client disconnected."
@@ -197,7 +174,6 @@ void Server::accept_connection()
           );
       connection.send_response(response.to_string());
     }
-    Logger::info("Client disconnected.");
 }
 
 void Server::stop()

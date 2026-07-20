@@ -49,6 +49,16 @@ std::string Response::to_string() const
   return stream.str();
 }
 
+int Response::status_code() const 
+{
+  return status_code_;
+}
+
+const std::string& Response::status_text() const 
+{
+  return status_text_;
+}
+
 Response Response::ok(std::string body, std::string content_type)
 {
   return Response(

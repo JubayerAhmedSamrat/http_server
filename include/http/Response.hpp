@@ -14,6 +14,8 @@ public:
 
   std::string to_string() const;
   
+  int status_code() const;
+  const std::string& status_text() const;
   static Response ok(
       std::string body,
       std::string content_type = "text/plain"
