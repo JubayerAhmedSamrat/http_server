@@ -5,6 +5,7 @@
 #include "router/Router.hpp"
 #include "server/Middleware.hpp"
 #include "logger/Logger.hpp"
+#include "filesystem/FileReader.hpp"
 
 #include <iostream>
 #include <arpa/inet.h>
@@ -121,8 +122,12 @@ void Server::accept_connection()
   Logger::info(
       "Client connected."
       ) ;
-
+   
   Connection connection{client_fd};
+  
+
+  try {
+             
   std::string raw_request = connection.receive();
   Parser parser;
 
@@ -139,7 +144,7 @@ void Server::accept_connection()
   Router router;
   Response response = router.route(request);
   connection.send_response(response.to_string());
-
+        
   std::cout << "\n========= Parsed Request ==========\n";
   std::cout << "Method  : " << request.method << '\n';
   std::cout << "Path  : " << request.path << '\n';
@@ -175,6 +180,16 @@ void Server::accept_connection()
   Logger::info(
       "Client disconnected."
       );
+    }
+    catch (const std::exception& e) {
+      Logger::error(e.what());
+
+      Response response = Response::internal_error(
+          FileReader::read("public/errors/500.html"), "text/html"
+          );
+      connection.send_response(response.to_string());
+    }
+    Logger::info("Client disconnected.");
 }
 
 void Server::stop()
