@@ -1,6 +1,8 @@
 #include "router/Router.hpp"
 #include "http/Request.hpp"
 #include "http/Response.hpp"
+#include "filesystem/FileReader.hpp"
+
 
 Router::Router() 
 {
@@ -10,7 +12,7 @@ Router::Router()
       return Response(
           200,
           "OK",
-          "Welcome to my C++ HTTP server!"
+          FileReader::read("public/index.html"), "text/html"
           );
     };
   routes_["/health"] =
@@ -35,6 +37,15 @@ Router::Router()
 
 Response Router::route(const Request& request) const 
 {
+  if(request.method != "GET")
+  {
+    return Response(
+        405,
+        "Method Not Allowed",
+        "Only GET is supported."
+        );
+  }
+
   auto it = routes_.find(request.path);
   if(it != routes_.end())
   {
