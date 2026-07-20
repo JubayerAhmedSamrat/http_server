@@ -42,6 +42,7 @@ void Server::start()
           );
     }
   }
+  Logger::info("Server stopped.");
 }
 
 void Server::create_socket()
@@ -116,7 +117,14 @@ void Server::accept_connection()
 
   if(client_fd == -1)
   {
-    throw std::runtime_error("Failed to accept client.");
+    if(!running_)
+    {
+      return;
+    }
+
+    throw std::runtime_error(
+        std::string("accept() failed: ") + std::strerror(errno)
+        );
   }
 
   Logger::info(
@@ -194,10 +202,15 @@ void Server::accept_connection()
 
 void Server::stop()
 {
+  Logger::info("Stopping server...");
   running_ = false;
 
-  std::cout 
-    << "\nStopping server...\n";
+  if(listen_fd_ != -1)
+  {
+    ::close(listen_fd_);
+    listen_fd_ = -1;
+  }
+
 }
 Server::~Server()
 {

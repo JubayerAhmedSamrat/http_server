@@ -4,7 +4,17 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <csignal>
 
+Server* g_server = nullptr;
+
+void signal_handler(int)
+{
+  if(g_server)
+  {
+    g_server->stop();
+  }
+}
 int main()
 {
   try
@@ -12,6 +22,8 @@ int main()
 
     ServerConfig config("server.conf");
     Server server(config.port());
+    g_server = &server;
+    std::signal(SIGINT, signal_handler);
 
     server.start();
   }
