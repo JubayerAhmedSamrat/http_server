@@ -28,6 +28,21 @@ void Parser::parse_request_line(
   throw BadRequestException("Invalid HTTP request.");
   }
 
+  if(request.method != "GET" &&
+      request.method != "POST")
+  {
+    throw BadRequestException("Unsupported HTTP method.");
+  }
+
+  if(request.version != "HTTP/1.1")
+  {
+    throw BadRequestException("Unsupported HTTP version.");
+  }
+
+  if(request.path.empty() || request.path.front() != '/')
+  {
+    throw BadRequestException("Invalid request pathl.");
+  }
   std::string line;
   std::getline(stream, line);
 }
