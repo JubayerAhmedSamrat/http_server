@@ -10,34 +10,27 @@ Router::Router()
   routes_["/health"] =
     [](const Request&)
     {
-      return Response(
-          200,
-          "OK",
+      return Response::ok(
           "Server is healthy."
           );
     };
   routes_["/echo"] = 
     [](const Request& request)
     {
-      return Response(
-          200,
-          "OK",
-          request.body
-          );
+      return Response::ok(request.body);
     };
+  
   routes_["/api/health"] =
     [](const Request&)
     {
-      return Response(
-          200,
-          "OK",
+      return Response::ok(
           R"({
-          "status": "ok",
-          "server":"cpp-http",
-          "version":"1.0"
+
+              "status": "ok",
+              "server":"cpp-http",
+              "version":"1.0"
           })",
-          "application/json"
-          );
+          "application/json");
     };
 }
 
@@ -47,11 +40,7 @@ Response Router::route(const Request& request) const
   if(request.method != "GET" && 
       request.method != "POST")
   {
-    return Response(
-        405,
-        "Method Not Allowed",
-        "Only GET and POST are supported."
-        );
+    return Response::method_not_allowed("Only GET and POST is supported.");
   }
   auto it = routes_.find(request.path);
   if(it != routes_.end())

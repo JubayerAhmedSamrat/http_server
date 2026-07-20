@@ -16,24 +16,18 @@ Response StaticFileHandler::serve(const std::string& path)
   std::string full_path = "public" + filename;
   if(path.find("..") != std::string::npos)
   {
-    return Response(
-        403,
-        "Forbidden",
-        "403 Forbidden"
+    return Response::forbidden(
+        FileReader::read("public/errors/403.html"), "text/html"
         );
   }
   if(!std::filesystem::exists(full_path))
   {
-    return Response(
-        404,
-        "Not Found",
-        "404 Not Found"
+    return Response::not_found(
+        FileReader::read("public/errors/404.html"), "text/html"
         );
   }
 
-  return Response(
-      200,
-      "OK",
+  return Response::ok(
       FileReader::read(full_path),
       MimeTypes::get(full_path)
       );

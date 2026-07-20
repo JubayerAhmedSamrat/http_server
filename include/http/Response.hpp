@@ -13,6 +13,31 @@ public:
       ); 
 
   std::string to_string() const;
+  
+  static Response ok(
+      std::string body,
+      std::string content_type = "text/plain"
+      );
+  static Response not_found(
+      std::string body = "404 Not Found",
+      std::string content_type = "text/plain"
+      );
+  static Response forbidden(
+      std::string body = "403 Forbidden"
+     ,std::string content_type = "text/plain" 
+      );
+  static Response bad_request(
+      std::string body = "400 Bad Request",
+      std::string content_type = "text/plain"
+      );
+  static Response internal_error(
+      std::string body = "500 Internal server Error",
+      std::string content_type = "text/plain"
+      );
+  static Response method_not_allowed(
+      std::string body = "405 Method Not Allowed",
+      std::string content_type = "text/plain" 
+      );
 
 private:
   int status_code_;

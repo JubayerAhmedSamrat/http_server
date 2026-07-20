@@ -48,3 +48,64 @@ std::string Response::to_string() const
 
   return stream.str();
 }
+
+Response Response::ok(std::string body, std::string content_type)
+{
+  return Response(
+      200,
+      "OK",
+      std::move(body),
+      std::move(content_type)
+      );
+}
+
+Response Response::not_found(std::string body, std::string content_type)
+{
+  return Response(
+      404,
+      "Not Found",
+      std::move(body),
+      std::move(content_type)
+      );
+}
+
+Response Response::forbidden(std::string body, std::string content_type)
+{
+  return Response(
+      403,
+      "Forbidden",
+      std::move(body),
+      std::move(content_type)
+      );
+}
+
+Response Response::bad_request(std::string body, std::string content_type)
+{
+  return Response(
+      400,
+      "Bad Request",
+      std::move(body),
+      std::move(content_type)
+      );
+}
+
+Response Response::internal_error(std::string body, std::string content_type)
+{
+  return Response(
+      500,
+      "Internal Server Error",
+      std::move(body),
+      std::move(content_type)
+      );
+}
+
+Response Response::method_not_allowed(std::string body, std::string content_type)
+{
+  return Response(
+      405,
+      "Method Not Allowed",
+      std::move(body),
+      std::move(content_type)
+      );
+}
+
