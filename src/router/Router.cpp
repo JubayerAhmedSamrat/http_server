@@ -25,6 +25,20 @@ Router::Router()
           request.body
           );
     };
+  routes_["/api/health"] =
+    [](const Request&)
+    {
+      return Response(
+          200,
+          "OK",
+          R"({
+          "status": "ok",
+          "server":"cpp-http",
+          "version":"1.0"
+          })",
+          "application/json"
+          );
+    };
 }
 
 Response Router::route(const Request& request) const 

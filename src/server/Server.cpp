@@ -27,7 +27,7 @@ void Server::start()
   bind_socket();
   start_listening();
   
-  while(true)
+  while(running_)
   {
     try 
     {
@@ -177,6 +177,13 @@ void Server::accept_connection()
       );
 }
 
+void Server::stop()
+{
+  running_ = false;
+
+  std::cout 
+    << "\nStopping server...\n";
+}
 Server::~Server()
 {
   if(listen_fd_ != -1)
