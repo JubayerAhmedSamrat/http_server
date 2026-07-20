@@ -2,19 +2,11 @@
 #include "http/Request.hpp"
 #include "http/Response.hpp"
 #include "filesystem/FileReader.hpp"
+#include "filesystem/StaticFileHandler.hpp"
 
 
 Router::Router() 
 {
-  routes_["/"] = 
-    [](const Request&)
-    {
-      return Response(
-          200,
-          "OK",
-          FileReader::read("public/index.html"), "text/html"
-          );
-    };
   routes_["/health"] =
     [](const Request&)
     {
@@ -51,10 +43,6 @@ Response Router::route(const Request& request) const
   {
     return it->second(request);
   }
+  return StaticFileHandler::serve(request.path);
 
-  return Response(
-      404,
-      "Not Found",
-      "404 Not Found"
-      );
 }
