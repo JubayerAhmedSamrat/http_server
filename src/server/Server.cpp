@@ -4,6 +4,7 @@
 #include "http/Response.hpp"
 #include "router/Router.hpp"
 #include "server/Middleware.hpp"
+#include "logger/Logger.hpp"
 
 #include <iostream>
 #include <arpa/inet.h>
@@ -34,10 +35,10 @@ void Server::start()
     }
     catch(const std::exception& exception)
     {
-      std::cerr 
-        << "Connection Error: "
-        << exception.what()
-        << '\n';
+      Logger::error(
+          "Connection Error: " +
+          std::string(exception.what())
+          );
     }
   }
 }
@@ -62,7 +63,7 @@ void Server::create_socket()
     throw std::runtime_error("Failed to create socket.");
   }
 
-  std::cout << "Socket created.\n";
+  Logger::info("Socket created");
 }
 
 void Server::bind_socket()
@@ -83,7 +84,10 @@ void Server::bind_socket()
         std::string("bind() failed: ") + std::strerror(errno)
         );
   }
-  std::cout << "Socket bound to port "<< port_ <<".\n";
+  Logger::info(
+      "Socket bound to port " + 
+      std::to_string(port_)
+      );
 }
 
 void Server::start_listening()
@@ -95,12 +99,17 @@ void Server::start_listening()
     throw std::runtime_error("Faield to listen on socket.");
   }
 
-  std::cout << "Listen on port " << port_ <<"....\n";
+  Logger::info(
+      "Listening on port " + 
+      std::to_string(port_)
+      );
 }
 
 void Server::accept_connection()
 {
-  std::cout <<"Waiting for a client...\n";
+  Logger::info(
+      "Waiting for a client..."
+      );
 
   int client_fd = ::accept(listen_fd_, nullptr, nullptr);
 
@@ -109,8 +118,10 @@ void Server::accept_connection()
     throw std::runtime_error("Failed to accept client.");
   }
 
-  std::cout << "Client connected.\n";
-  
+  Logger::info(
+      "Client connected."
+      ) ;
+
   Connection connection{client_fd};
   std::string raw_request = connection.receive();
   Parser parser;
@@ -156,14 +167,18 @@ void Server::accept_connection()
   std::cout << "\nBody\n";
   std::cout << request.body << '\n';
 
-  std::cout << "Client disconnected. \n\n";
+  Logger::info(
+      "Client disconnected."
+      );
 }
 
 Server::~Server()
 {
   if(listen_fd_ != -1)
   {
-    std::cout << "Closing listening socket...\n";
+    Logger::info(
+        "Closing listening socket."
+        );
     ::close(listen_fd_);
   }
 }
