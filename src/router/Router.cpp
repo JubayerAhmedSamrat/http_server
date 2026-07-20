@@ -29,15 +29,16 @@ Router::Router()
 
 Response Router::route(const Request& request) const 
 {
-  if(request.method != "GET")
+
+  if(request.method != "GET" && 
+      request.method != "POST")
   {
     return Response(
         405,
         "Method Not Allowed",
-        "Only GET is supported."
+        "Only GET and POST are supported."
         );
   }
-
   auto it = routes_.find(request.path);
   if(it != routes_.end())
   {

@@ -127,6 +127,11 @@ void Server::accept_connection()
   Parser parser;
 
   Request request = parser.parse(raw_request); 
+  
+  std::cout
+    << "Raw path received: "
+    << request.path 
+    << '\n';
 
   Middleware middleware;
   middleware.log_request(request);
