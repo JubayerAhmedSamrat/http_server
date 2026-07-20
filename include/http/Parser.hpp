@@ -5,6 +5,12 @@
 #include <string>
 #include <sstream>
 
+class BadRequestException : public std::runtime_error
+{
+  public:
+    using std::runtime_error::runtime_error;
+};
+
 class Parser 
 {
 public:

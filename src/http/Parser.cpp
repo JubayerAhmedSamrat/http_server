@@ -25,7 +25,7 @@ void Parser::parse_request_line(
               >> request.path
               >> request.version))
   {
-    throw std::runtime_error("Invalid HTTP request.");
+  throw BadRequestException("Invalid HTTP request.");
   }
 
   std::string line;

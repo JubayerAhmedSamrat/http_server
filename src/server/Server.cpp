@@ -166,7 +166,19 @@ void Server::accept_connection()
       "Client disconnected."
       );
     }
-    catch (const std::exception& e) {
+  catch(const BadRequestException& e)
+  {
+    Logger::error(e.what());
+
+    Response response = 
+      Response::bad_request(
+          "404 Bad Request"
+          );
+      connection.send_response(
+          response.to_string()
+          );
+  }
+  catch (const std::exception& e) {
       Logger::error(e.what());
 
       Response response = Response::internal_error(
