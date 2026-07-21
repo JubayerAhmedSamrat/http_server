@@ -1,104 +1,98 @@
-## Day 3 
+# Notes
 
-### Systems 
-- Learned what bind() does.
-- Learned that sockets must be bound to an address before accepting connections.
-- Learned sockaddr_in.
+## HTTP Request Lifecycle
 
-### C++ 
--Learned aggregate initialization.
+```
+Client
+    │
+    ▼
+Server
+    │
+    ▼
+Connection
+    │
+    ▼
+Parser
+    │
+    ▼
+Middleware
+    │
+    ▼
+Router
+    │
+    ▼
+Handler
+    │
+    ▼
+Response
+    │
+    ▼
+Client
+```
 
- sockaddr_in address{};
+---
 
-## Day 4 
-### Systems 
-- Learned how `listen()` marks a socket as passive.
-- Learned about the kernel's pending connection queue.
-- Learned the purpose of the backlog parameter.
+## HTTP Response Format
 
-### C++ 
-- Learned `constexpr` for compile-time constants.
-- Continued using POSIX system calls with exception handling.
+```
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: ...
 
-## Day 5 
-### Systems 
-- Learned accept().
-- Learned recv().
-- Learned close().
-- A listening socket accepts connections.
-- A client socket communicates with exactly one client.
-### C++ 
-- Learned ssize_t.
-- Learned why recv() returns the number of bytes read.
+<body>
+```
 
-## Day 6 
-### Systems 
-- Moved client communication into a dedicated connection class.
+---
 
-### C++ 
-- Learned the basics of RAII 
-## Day 7
-### Systems 
-- An HTTP request starts with a request line.
-- The request line contains the method, path, and HTTP version.
-### C++ 
-- Learned `std::istringstream`.
-- Learned to model HTTP requests with a struct.
-- Learned `const` member function.
-## Day 8
-### Systems 
-- Learned how HTTP responses are formatted.
-- Implemented HTTP/1.1 response generation.
-- Learned why `Content-Length` is required.
-- Used `send()` to transmit data over TCP.
+## POSIX APIs Used
 
-### C++ 
-- Learned `std::ostringstream`.
-- Introduced `std::move`.
-- Learned protocol bugs differ from compiler errors.
+- socket()
+- bind()
+- listen()
+- accept()
+- recv()
+- send()
+- close()
+- setsockopt()
 
-## Milestone 9 - Router 
-### System 
-- Added a dedicatd router class.
-- Implemented routing for:
-    - `/`
-    - `/health`
-    - `/echo`
-- Added 404 responses. 
+---
 
-### C++   
-- Used `const Request&` to avoid unnecessary copies.
-- Improved separation of concern by moving routing logic out of `Server`. 
+## C++ Features Used
 
-## Milestone 10 - Resource Ownership 
-### System 
-- Distinguished between the listening socket and client sockets.
-- Ensured client sockets are closed after each request.
-- Added cleanup for the listening socket.
+- RAII
+- std::filesystem
+- std::unordered_map
+- std::function
+- std::ostringstream
+- std::istringstream
+- Structured Bindings
+- std::move
+- constexpr
+- Exceptions
 
-### C++  
-- Applied RAII 
-- Added a destructor to `Server`.
-- Improved ownership semantics.
+---
 
-## Milestone 11 - socket options 
-### systems 
-- Learned about the TCP `TIME_WAIT` state.
-- Investigated why `bind()` can fail after a server exits.
-- Introduced socket options using `setsockopt()`.
-- Enabled `SO_REUSEADDR` for rapid server restarts.
+## Current Features
 
-### Networking 
-- Learned how sockets options influences kernel networking behavior.
+- HTTP/1.1
+- GET
+- POST
+- Query Parameters
+- Routing
+- Middleware
+- Static Files
+- MIME Types
+- Configuration
+- Logging
+- Error Pages
 
-## Milestone 12 - Persistent Accept Loop 
-### Systems 
-- Implemented a persistent server loop.
-- The server now accepts multiple client without restarting.
-- Added exception handling around request processing.
+---
 
-### C++ 
-- Used `while(true)` for a long-running service.
-- Used `try/catch` to isolate request failures.
+## Future Topics
 
-
+- Thread Pool
+- epoll
+- Non-blocking sockets
+- Reverse Proxy
+- Load Balancer
+- HTTPS

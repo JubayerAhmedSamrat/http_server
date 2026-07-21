@@ -1,5 +1,8 @@
-# HTTP Server Roadmap 
-## Networking 
+# HTTP Server Roadmap
+
+## Version 1.0 ✅
+
+### Networking
 
 - [x] socket()
 - [x] bind()
@@ -7,38 +10,69 @@
 - [x] accept()
 - [x] recv()
 - [x] send()
+- [x] SO_REUSEADDR
 
-## HTTP 
+### HTTP
 
-- [x] Parse Request Line 
-- [x] Build HTTP Response 
-- [x] HTTP Headers 
-- [x] Content-Length 
+- [x] HTTP Request Parsing
+- [x] HTTP Response Generation
+- [x] Request Headers
+- [x] Query Parameters
+- [x] GET
+- [x] POST
 
-## Routing 
+### Routing
 
-- [x] Router class 
-- [x] GET / 
-- [x] GET /health 
-- [x] GET /echo 
-- [x] 404 Response 
+- [x] Router
+- [x] API Endpoints
+- [x] Static File Serving
 
-## Resource Mangement 
+### Static Files
 
-- [x] Connection RAII 
-- [x] Server RAII 
-- [x] SO_REUSEADDR 
+- [x] HTML
+- [x] CSS
+- [x] MIME Detection
+- [x] Directory Traversal Protection
 
-## Upcomming 
+### Error Handling
 
-- [x] Persistent accept loop
-- [ ] Logger integration 
-- [ ] Request headers 
-- [ ] Query parameters 
-- [ ] POST requests 
-- [ ] Static file serving 
-- [ ] Thread Pool 
-- [ ] epoll()
-- [ ] Keep-Alive 
-- [ ] Middleware 
-- [ ] Benchmarks 
+- [x] 400
+- [x] 403
+- [x] 404
+- [x] 405
+- [x] 500
+
+### Infrastructure
+
+- [x] Logger
+- [x] Middleware
+- [x] Configuration
+- [x] Persistent Accept Loop
+
+---
+
+## Version 2
+
+- [ ] Thread Pool
+- [ ] Multithreading
+- [ ] Keep-Alive
+- [ ] Connection Pool
+- [ ] File Cache
+
+---
+
+## Version 3
+
+- [ ] epoll
+- [ ] Non-blocking sockets
+- [ ] Event Loop
+- [ ] Connection Timeout
+
+---
+
+## Version 4
+
+- [ ] Reverse Proxy
+- [ ] Load Balancer
+- [ ] HTTPS
+- [ ] HTTP/2
