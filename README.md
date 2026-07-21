@@ -1,5 +1,6 @@
 # HTTP Server
 ![C++](https://img.shields.io/badge/C%2B%2B-23-blue) ![Linux](https://img.shields.io/badge/Linux-POSIX-green) ![CMake](https://img.shields.io/badge/CMake-Build-red) ![License](https://img.shields.io/badge/License-MIT-yellow)
+
 A modular HTTP/1.1 web server written in **Modern C++23** from scratch using the POSIX Socket API.
 
 This project was built to understand how web servers work internally—from creating TCP sockets and parsing HTTP requests to routing, serving static files, handling errors, and generating HTTP responses.
