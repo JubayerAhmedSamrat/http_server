@@ -1,55 +1,135 @@
+# HTTP Server Architecture
+
+## Overview
+
+The server follows a modular pipeline where each component has a single responsibility.
+
+```
 Client
     │
     ▼
-TCP Connection
+Server
     │
     ▼
 Connection
     │
-receive()
     ▼
-Parser
+HTTP Parser
     │
-parse()
     ▼
-Request
+Middleware
     │
     ▼
 Router
-    │
-route()
-    ▼
-Response
-    │
-to_string()
-    ▼
-Connection
-    │
-send()
-    ▼
+ ┌──┴─────────────┐
+ ▼                ▼
+API         Static Files
+ └──────┬─────────┘
+        ▼
+HTTP Response
+        ▼
 Client
+```
 
-## Responsibilities
+---
+
+## Components
 
 ### Server
 
-- Owns the listening socket.
-- Accepts new TCP connections.
+Responsible for:
+
+- Creating sockets
+- Binding
+- Listening
+- Accepting connections
+
+---
 
 ### Connection
 
-- Owns a client socket.
-- Receives requests.
-- Sends responses.
+Handles raw TCP communication.
 
-### Parser
+Responsibilities:
 
-- Converts raw HTTP text into a Request object.
+- recv()
+- send()
+- closing sockets
+
+---
+
+### HTTP Parser
+
+Converts raw HTTP requests into structured Request objects.
+
+Parses:
+
+- Method
+- Path
+- Headers
+- Query parameters
+- Body
+
+---
+
+### Middleware
+
+Runs before routing.
+
+Current middleware:
+
+- Request logging
+
+Future middleware:
+
+- Authentication
+- Rate limiting
+- Compression
+
+---
 
 ### Router
 
-- Determines which endpoint should handle the request.
+Maps URLs to handlers.
+
+Examples:
+
+- /
+- /health
+- /api/health
+
+---
+
+### Static File Handler
+
+Serves files from
+
+public/
+
+Automatically:
+
+- detects MIME type
+- loads index.html
+- blocks directory traversal
+
+---
 
 ### Response
 
-- Builds a valid HTTP/1.1 response.
+Generates valid HTTP/1.1 responses.
+
+Adds:
+
+- Status Line
+- Content-Type
+- Content-Length
+- Connection header
+
+---
+
+## Design Principles
+
+- Single Responsibility Principle
+- RAII
+- Composition over inheritance
+- Small reusable classes
