@@ -29,7 +29,7 @@ Router::Router()
               "status": "ok",
               "server":"cpp-http",
               "version":"1.0"
-          })",
+          })" "\n",
           "application/json");
     };
 }
