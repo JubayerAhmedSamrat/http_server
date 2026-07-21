@@ -1,3 +1,43 @@
+# Decision #1
+
+## Introduce a Dedicated Server Class
+
+### Responsibilities
+
+- Own the HTTP server lifecycle.
+- Create and initialize the listening socket.
+- Bind the socket to a network address.
+- Start listening for incoming connections.
+- Accept client connections.
+- Manage server startup and shutdown.
+
+### Reason
+
+The server is the core component of the application.
+
+Encapsulating the entire server lifecycle inside a dedicated `Server` class separates networking logic from the program entry point (`main.cpp`). This results in a cleaner architecture, improves maintainability, and provides a solid foundation for future features such as configuration management, logging, thread pools, and event-driven networking.
+
+---
+
+# Decision #2
+
+## Keep `main.cpp` Minimal
+
+### Responsibilities
+
+- Serve as the application entry point.
+- Construct the `Server` object.
+- Start the server.
+- Handle top-level exceptions.
+- Exit gracefully on fatal errors.
+
+### Reason
+
+The entry point should contain as little logic as possible.
+
+Keeping `main.cpp` small makes the application easier to understand and keeps application startup separate from server implementation. All networking, request handling, and resource management remain inside dedicated classes, following the principle of separation of concerns.
+
+This design also makes the project easier to extend, test, and maintain as additional infrastructure components are introduced.
 ## Decision #3 
 
 The Server class owns socket creation and binding.
@@ -107,3 +147,66 @@ Reason
 A production HTTP server should continue accepting new client connections intead of exiting after serving one request.
 
 Errors while processing one client must not terminate the entire server.
+
+# Decision #13
+
+## Introduce Configuration Loader
+
+Responsibilities
+
+- Read server.conf
+- Validate configuration
+- Expose configuration through a clean interface
+
+Reason
+
+Configuration should be separated from server implementation to simplify deployment and future extensions.
+
+---
+
+# Decision #14
+
+## Centralized Logger
+
+Responsibilities
+
+- Print informational messages
+- Print errors
+- Standardize logging format
+
+Reason
+
+Logging should be consistent across all components and isolated from business logic.
+
+---
+
+# Decision #15
+
+## Static File Handler
+
+Responsibilities
+
+- Serve files from public/
+- Detect MIME types
+- Prevent directory traversal
+- Return HTML error pages
+
+Reason
+
+Static file serving is a separate concern from request routing.
+
+---
+
+# Decision #16
+
+## Response Factory Methods
+
+Examples
+
+- Response::ok()
+- Response::not_found()
+- Response::forbidden()
+
+Reason
+
+Factory methods eliminate duplicated status codes throughout the project and improve readability.
