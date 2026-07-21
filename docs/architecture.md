@@ -2,134 +2,120 @@
 
 ## Overview
 
-The server follows a modular pipeline where each component has a single responsibility.
+The server follows a modular request-processing pipeline where each component has a single responsibility.
 
 ```
-Client
-    │
-    ▼
-Server
-    │
-    ▼
-Connection
-    │
-    ▼
-HTTP Parser
-    │
-    ▼
-Middleware
-    │
-    ▼
-Router
- ┌──┴─────────────┐
- ▼                ▼
-API         Static Files
- └──────┬─────────┘
-        ▼
-HTTP Response
-        ▼
-Client
+                Client
+                   │
+                   ▼
+            TCP Connection
+                   │
+                   ▼
+              Connection
+                   │
+               receive()
+                   │
+                   ▼
+                Parser
+                   │
+                parse()
+                   │
+                   ▼
+                Request
+                   │
+                   ▼
+              Middleware
+                   │
+             log_request()
+                   │
+                   ▼
+                Router
+         ┌─────────┴─────────┐
+         ▼                   ▼
+   API Handlers      Static File Handler
+         │                   │
+         └─────────┬─────────┘
+                   ▼
+               Response
+                   │
+              to_string()
+                   │
+                   ▼
+              Connection
+                   │
+                   ▼
+            send_response()
+                   │
+                   ▼
+                 Client
 ```
 
 ---
 
-## Components
+## Responsibilities
 
 ### Server
 
-Responsible for:
-
-- Creating sockets
-- Binding
-- Listening
-- Accepting connections
-
----
+- Owns the listening socket.
+- Creates, binds and listens.
+- Accepts incoming TCP connections.
 
 ### Connection
 
-Handles raw TCP communication.
+- Owns one client socket.
+- Receives raw HTTP requests.
+- Sends serialized HTTP responses.
+- Automatically closes the socket (RAII).
 
-Responsibilities:
+### Parser
 
-- recv()
-- send()
-- closing sockets
-
----
-
-### HTTP Parser
-
-Converts raw HTTP requests into structured Request objects.
+Converts raw HTTP text into a structured `Request`.
 
 Parses:
 
 - Method
 - Path
+- Version
 - Headers
-- Query parameters
+- Query Parameters
 - Body
-
----
 
 ### Middleware
 
-Runs before routing.
+Processes requests before routing.
 
 Current middleware:
 
 - Request logging
 
-Future middleware:
-
-- Authentication
-- Rate limiting
-- Compression
-
----
-
 ### Router
 
-Maps URLs to handlers.
+Maps incoming requests to handlers.
 
-Examples:
+Current endpoints:
 
 - /
 - /health
+- /echo
 - /api/health
-
----
 
 ### Static File Handler
 
-Serves files from
+Serves files from the `public/` directory.
 
-public/
+Features:
 
-Automatically:
-
-- detects MIME type
-- loads index.html
-- blocks directory traversal
-
----
+- MIME type detection
+- index.html fallback
+- Directory traversal protection
 
 ### Response
 
-Generates valid HTTP/1.1 responses.
+Creates valid HTTP/1.1 responses.
 
 Adds:
 
-- Status Line
+- Status line
 - Content-Type
 - Content-Length
 - Connection header
-
----
-
-## Design Principles
-
-- Single Responsibility Principle
-- RAII
-- Composition over inheritance
-- Small reusable classes
